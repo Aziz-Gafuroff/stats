@@ -102,3 +102,101 @@ func TestCategoriesAvg(t *testing.T) {
 		t.Errorf("invalid result, expected: %v, actual: %v", expected, result)
 	}
 }
+
+
+func TestPeriodDynamic_1(t *testing.T){
+	first := map[types.Category]types.Money{
+		"auto":10_00,
+		"food":20_00,
+	}
+
+	second := map[types.Category]types.Money{
+		"auto":5_00,
+		"food":3_00,
+	}
+
+	expected :=  map[types.Category]types.Money{
+		"auto":-5_00,
+		"food":-17_00,
+	}
+
+	result := PeriodDynamic(first, second)
+
+	if !reflect.DeepEqual(expected, result){
+		t.Errorf("invalid result, expected: %v, actual: %v", expected, result)
+	}
+
+}
+
+func TestPeriodDynamic_2(t *testing.T){
+	first := map[types.Category]types.Money{
+		"auto":10_00,
+		"food":20_00,
+	}
+
+	second := map[types.Category]types.Money{
+		"auto":20_00,
+		"food":20_00,
+	}
+
+	expected :=  map[types.Category]types.Money{
+		"auto":10_00,
+		"food":0_00,
+	}
+
+	result := PeriodDynamic(first, second)
+
+	if !reflect.DeepEqual(expected, result){
+		t.Errorf("invalid result, expected: %v, actual: %v", expected, result)
+	}
+
+}
+
+func TestPeriodDynamic_3(t *testing.T){
+	first := map[types.Category]types.Money{
+		"auto":10_00,
+		"food":20_00,
+	}
+
+	second := map[types.Category]types.Money{
+		"food":20_00,
+	}
+
+	expected :=  map[types.Category]types.Money{
+		"auto":-10_00,
+		"food":0_00,
+	}
+
+	result := PeriodDynamic(first, second)
+
+	if !reflect.DeepEqual(expected, result){
+		t.Errorf("invalid result, expected: %v, actual: %v", expected, result)
+	}
+
+}
+
+func TestPeriodDynamic_4(t *testing.T){
+	first := map[types.Category]types.Money{
+		"auto":10_00,
+		"food":20_00,
+	}
+
+	second := map[types.Category]types.Money{
+		"auto":10_00,
+		"food":25_00,
+		"mobile":5_00,
+	}
+
+	expected :=  map[types.Category]types.Money{
+		"auto":0_00,
+		"food":5_00,
+		"mobile":5_00,
+	}
+
+	result := PeriodDynamic(first, second)
+
+	if !reflect.DeepEqual(expected, result){
+		t.Errorf("invalid result, expected: %v, actual: %v", expected, result)
+	}
+
+}
